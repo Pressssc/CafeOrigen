@@ -1,8 +1,9 @@
-const ventas = require("./datos");
-
 function valorVenta(venta) {
   return venta.cantidad * venta.precio;
 }
+
+
+// total vendido
 function totalVendido(ventas) {
   let total = 0;
 
@@ -12,6 +13,9 @@ function totalVendido(ventas) {
 
   return total;
 }
+
+
+//unidades vendidas
 function unidadesVendidas(ventas) {
   let unidades = 0;
 
@@ -22,6 +26,8 @@ function unidadesVendidas(ventas) {
   return unidades;
 }
 
+
+//venta de mayor valor
 function ventaMayor(ventas) {
   if (ventas.length === 0) {
     return null;
@@ -38,6 +44,8 @@ function ventaMayor(ventas) {
   return mayor;
 }
 
+
+// ticket promedio
 function ticketPromedio(ventas) {
   let total = 0;
   let cantidadVentas = 0;
@@ -55,6 +63,9 @@ function ticketPromedio(ventas) {
 
   return total / cantidadVentas;
 }
+
+
+//total en una ciudad
 function ventasPorCiudad(ventas, ciudad) {
   let total = 0;
 
@@ -66,8 +77,6 @@ function ventasPorCiudad(ventas, ciudad) {
 
   return total;
 }
-
-//reto3
 
 // total v usando metodos
 function totalVendidoM(ventas) {
@@ -89,7 +98,7 @@ function unidadesVendidasM(ventas) {
 }
 
 
-// total v en ciudad usando metodos
+// total v en ciudad por metodos
 function ventasPorCiudadM(ventas, ciudad) {
   let ciudadBuscada = ciudad.toLowerCase().trim();
 
@@ -105,7 +114,7 @@ function ventasPorCiudadM(ventas, ciudad) {
 }
 
 
-// total v
+// totalp ciudad
 function totalPorCiudad(ventas) {
   let ciudades = ventas.reduce((total, venta) => {
 
@@ -125,7 +134,7 @@ function totalPorCiudad(ventas) {
 }
 
 
-// unidades v
+//u mas venvdidas
 function unidadesPorProducto(ventas) {
   let productos = ventas.reduce((total, venta) => {
 
@@ -145,7 +154,7 @@ function unidadesPorProducto(ventas) {
 }
 
 
-// productos q mas generaron
+// Productos que mas dinero generaron
 function topProductosPorValor(ventas, k) {
   let productos = ventas.reduce((total, venta) => {
 
@@ -173,6 +182,34 @@ function topProductosPorValor(ventas, k) {
 
   return nombres;
 }
+
+function ventasDelDia(ventas, fecha) {
+  let resultado = ventas.filter(venta => {
+    return venta.fecha === fecha;
+  });
+
+  return resultado;
+}
+// busca los clientes que compraron más de una vez
+function clientesRecurrentes(ventas) {
+
+  const recurrentes = [];
+
+  for (let i = 0; i < ventas.length; i++) {
+
+    for (let j = i + 1; j < ventas.length; j++) {
+
+      if (ventas[i].cliente === ventas[j].cliente &&
+          !recurrentes.includes(ventas[i].cliente)) {
+
+        recurrentes.push(ventas[i].cliente);
+
+      }
+    }
+  }
+
+  return recurrentes;
+}
 module.exports = {
   valorVenta,
   totalVendido,
@@ -185,7 +222,7 @@ module.exports = {
   ventasPorCiudadM,
   totalPorCiudad,
   unidadesPorProducto,
-  topProductosPorValor
+  topProductosPorValor,
+  ventasDelDia,
+  clientesRecurrentes
 };
-
-

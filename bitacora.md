@@ -237,3 +237,98 @@ En cambio, esperaba que la función que obtiene la primera venta mantuviera siem
 Al comparar los resultados, comprobé que mis predicciones coincidieron con las mediciones. Las funciones que recorren todas las ventas aumentaron sus operaciones de manera proporcional a la cantidad de datos.
 
 También entendí que una función puede hacer más operaciones que otra y seguir teniendo la misma compejidad de big o
+
+## MiniReto 6 – El reporte que se volvió lento
+
+### ¿Qué hice?
+
+En este reto trabajé con una función que permite encontrar los clientes que han comprado más de una vez en Café Origen.
+
+Primero probé la función con las 12 ventas originales y comprobé que devolviera los clientes C01, C02 y C03.
+
+Después utilicé el generador del reto anterior para probarla con cantidades más grandes y medir cuánto tardaba en ejecutarse.
+
+### Traza manual
+
+Para entender cómo funciona, utilicé un ejemplo de 5 ventas:
+
+| Venta | Cliente |
+|---|---|
+| 1 | C01 |
+| 2 | C02 |
+| 3 | C01 |
+| 4 | C03 |
+| 5 | C02 |
+
+La función compara cada venta con las siguientes para encontrar clientes repetidos.
+
+| Venta | Comparaciones |
+|---|---:|
+| 1 | 4 |
+| 2 | 3 |
+| 3 | 2 |
+| 4 | 1 |
+| 5 | 0 |
+| **Total** | **10** |
+
+El resultado es C01 y C02, porque ambos aparecen dos veces.
+
+Con una cantidad de `n` ventas, las comparaciones se pueden calcular con:
+
+**n × (n − 1) / 2**
+
+### Mediciones de tiempo
+
+Realicé pruebas con diferentes cantidades de ventas utilizando `console.time()` y `console.timeEnd()`.
+
+| Cantidad de ventas | Tiempo |
+|---|---:|
+| 1.000 | 4,90 ms |
+| 2.000 | 12,24 ms |
+| 4.000 | 44,96 ms |
+| 8.000 | 192,09 ms |
+| 16.000 | 795,32 ms |
+| 100.000 | 36.206 ms |
+
+Al comparar los resultados, observé que cuando duplicaba la cantidad de ventas, el tiempo aumentaba aproximadamente cuatro veces, especialmente en las pruebas más grandes.
+
+Esto sucede porque la función utiliza dos ciclos anidados que realizan muchas comparaciones.
+
+### Complejidad Big O
+
+Los dos ciclos `for` anidados tienen una complejidad O(n²), porque cada venta se compara con las siguientes.
+
+También encontré que `includes()` realiza una búsqueda dentro del arreglo de clientes recurrentes.
+
+Esto genera un costo adicional, ya que mientras más clientes haya guardados, más elementos podría tener que revisar. En el peor caso teórico, la función completa puede llegar a O(n³).
+
+### Estimaciones de rendimiento
+
+Utilicé el tiempo de 16.000 ventas para calcular cuánto podría tardar el programa con cantidades mayores.
+
+| Cantidad de ventas | Tiempo estimado |
+|---|---|
+| 100.000 | 31,07 segundos |
+| 1.000.000 | 3.106,72 segundos (aproximadamente 52 minutos) |
+
+Para realizar estas estimaciones utilicé el crecimiento cuadrático, multiplicando el tiempo medido por el cuadrado de la proporción entre las cantidades de ventas.
+
+Como el tiempo estimado para 100.000 ventas era menor a dos minutos, decidí ejecutar la prueba.
+
+### Prueba con 100.000 ventas
+
+El programa estimó que procesar 100.000 ventas tardaría aproximadamente 31,07 segundos.
+
+Al realizar la prueba, el tiempo real fue de **36,21 segundos**.
+
+La diferencia fue de aproximadamente 5,14 segundos. Aunque tardó un poco más de lo esperado, el resultado confirmó que la función se vuelve mucho más lenta cuando aumenta el historial de ventas.
+
+### Conclusión para la gerente
+
+El reporte de clientes recurrentes funciona correctamente cuando hay pocas ventas, pero comienza a tardar demasiado cuando aumenta la información.
+
+Esto ocurre porque el programa compara cada venta con muchas otras, repitiendo una gran cantidad de trabajo.
+
+Para mejorar el rendimiento, sería necesario encontrar una forma de identificar los clientes repetidos sin comparar todos los registros entre sí.
+
+Con este reto entendí que no basta con que una función funcione correctamente, también es importante revisar qué tan eficiente es cuando tiene que procesar muchos datos.
