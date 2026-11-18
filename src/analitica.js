@@ -67,46 +67,125 @@ function ventasPorCiudad(ventas, ciudad) {
   return total;
 }
 
+//reto3
+
+// total v usando metodos
+function totalVendidoM(ventas) {
+  let valores = ventas.map(venta => valorVenta(venta));
+
+  let total = valores.reduce((suma, valor) => suma + valor, 0);
+
+  return total;
+}
+
+
+// unidades v usando metodos
+function unidadesVendidasM(ventas) {
+  let total = ventas.reduce((suma, venta) => {
+    return suma + venta.cantidad;
+  }, 0);
+
+  return total;
+}
+
+
+// total v en ciudad usando metodos
+function ventasPorCiudadM(ventas, ciudad) {
+  let ciudadBuscada = ciudad.toLowerCase().trim();
+
+  let resultado = ventas.filter(venta => {
+    return venta.ciudad.toLowerCase().trim() === ciudadBuscada;
+  });
+
+  let total = resultado.reduce((suma, venta) => {
+    return suma + valorVenta(venta);
+  }, 0);
+
+  return total;
+}
+
+
+// total v
+function totalPorCiudad(ventas) {
+  let ciudades = ventas.reduce((total, venta) => {
+
+    let ciudad = venta.ciudad.toLowerCase().trim();
+
+    if (!total[ciudad]) {
+      total[ciudad] = 0;
+    }
+
+    total[ciudad] += valorVenta(venta);
+
+    return total;
+
+  }, {});
+
+  return ciudades;
+}
+
+
+// unidades v
+function unidadesPorProducto(ventas) {
+  let productos = ventas.reduce((total, venta) => {
+
+    let producto = venta.producto;
+
+    if (!total[producto]) {
+      total[producto] = 0;
+    }
+
+    total[producto] += venta.cantidad;
+
+    return total;
+
+  }, {});
+
+  return productos;
+}
+
+
+// productos q mas generaron
+function topProductosPorValor(ventas, k) {
+  let productos = ventas.reduce((total, venta) => {
+
+    let producto = venta.producto;
+
+    if (!total[producto]) {
+      total[producto] = 0;
+    }
+
+    total[producto] += valorVenta(venta);
+
+    return total;
+
+  }, {});
+
+  let lista = Object.entries(productos);
+
+  let copia = [...lista];
+
+  copia.sort((a, b) => b[1] - a[1]);
+
+  let primeros = copia.slice(0, k);
+
+  let nombres = primeros.map(producto => producto[0]);
+
+  return nombres;
+}
 module.exports = {
   valorVenta,
   totalVendido,
   unidadesVendidas,
   ventaMayor,
   ticketPromedio,
-  ventasPorCiudad
+  ventasPorCiudad,
+  totalVendidoM,
+  unidadesVendidasM,
+  ventasPorCiudadM,
+  totalPorCiudad,
+  unidadesPorProducto,
+  topProductosPorValor
 };
 
 
-// p12v
-console.log("=== ARREGLO COMPLETO ===");
-
-console.log("Total vendido:", totalVendido(ventas));
-console.log("Unidades vendidas:", unidadesVendidas(ventas));
-console.log("Venta mayor:", ventaMayor(ventas));
-console.log("Ticket promedio:", ticketPromedio(ventas));
-console.log("Ventas en Medellín:", ventasPorCiudad(ventas, "Medellín"));
-
-
-// Puv
-console.log("\n=== UNA SOLA VENTA ===");
-
-console.log("Total vendido:", totalVendido([ventas[0]]));
-console.log("Unidades vendidas:", unidadesVendidas([ventas[0]]));
-console.log("Venta mayor:", ventaMayor([ventas[0]]));
-console.log("Ticket promedio:", ticketPromedio([ventas[0]]));
-console.log("Ventas en Medellín:", ventasPorCiudad([ventas[0]], "Medellín"));
-
-
-// pv
-console.log("\n=== ARREGLO VACÍO ===");
-
-console.log("Total vendido:", totalVendido([]));
-console.log("Unidades vendidas:", unidadesVendidas([]));
-console.log("Venta mayor:", ventaMayor([]));
-console.log("Ticket promedio:", ticketPromedio([]));
-console.log("Ventas en Medellín:", ventasPorCiudad([], "Medellín"));
-
-//pc
-console.log("\n=== PRUEBA DE CIUDAD ===");
-
-console.log("Medellín:", ventasPorCiudad(ventas, " medellín "));
