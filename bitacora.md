@@ -172,3 +172,68 @@ Para ordenar los productos, utilicé una copia del arreglo con `...` antes de ap
 Con estos dos retos aprendí a calcular indicadores de ventas utilizando ciclos y después a obtener los mismos resultados con métodos de arreglos.
 
 También entendí la importancia de revisar los datos antes de utilizarlos y de probar las funciones con diferentes entradas para evitar errores.
+
+## MiniReto 4 – Reporte final
+
+En este último reto reuní las funciones que había creado anteriormente para mostrar un reporte completo de Café Origen desde la terminal.
+
+Creé el archivo `reporte.js`, donde se muestran las ventas totales, las unidades vendidas, el ticket promedio, las ventas por ciudad y los productos que más dinero generaron.
+
+También agregué una función para consultar las ventas de una fecha específica y utilicé `toLocaleString()` para mostrar los valores en pesos colombianos.
+
+### Error 1: Ciudades duplicadas
+
+- **Síntoma:** Una misma ciudad podía aparecer dos veces en el reporte.
+- **Entrada:** Ventas con ciudades escritas como `"Medellín"` y `"medellín"`.
+- **Hipótesis:** El programa reconocía los nombres como ciudades diferentes.
+- **Prueba:** Consulté los totales por ciudad utilizando `totalPorCiudad()`.
+- **Causa:** Las diferencias entre mayúsculas, minúsculas y espacios.
+- **Corrección:** Utilicé `toLowerCase()` y `trim()` para normalizar los nombres.
+
+### Error 2: Ticket promedio NaN
+
+- **Síntoma:** El promedio podía mostrar `NaN` cuando no había ventas.
+- **Entrada:** Un arreglo vacío `[]`.
+- **Hipótesis:** El programa estaba dividiendo entre cero.
+- **Prueba:** Ejecuté `ticketPromedio([])` para comprobar el resultado.
+- **Causa:** No había ventas válidas para realizar la división.
+- **Corrección:** Agregué una condición para devolver 0 cuando no existen ventas válidas.
+
+
+Finalmente, ejecuté el reporte desde la terminal y comprobé que los resultados fueran correctos. También verifiqué que los días sin ventas mostraran valores en cero y que no aparecieran ciudades duplicadass
+
+## MiniReto 5 – Medición de operaciones
+
+### ¿Qué hice?
+
+En este reto creé un generador de ventas para probar las funciones con diferentes cantidades de datos, desde 100 hasta 100.000 ventas.
+
+También agregué contadores de operaciones para saber cuánto trabajo realiza cada función cuando aumenta la cantidad de ventas.
+
+### Predicciones antes de medir
+
+Antes de ejecutar las pruebas, pensé que las funciones que recorren todas las ventas iban a realizar aproximadamente 10 veces más operaciones cuando los datos aumentaran 10 veces.
+
+En cambio, esperaba que la función que obtiene la primera venta mantuviera siempre la misma cantidad de operaciones.
+
+### Resultados de las mediciones
+
+| Ventas | Total vendido | Venta mayor | Total por ciudad | Primera venta |
+|---|---|---|---|---|
+| 100 | 100 | 200 | 200 | 1 |
+| 1.000 | 1.000 | 2.000 | 2.000 | 1 |
+| 10.000 | 10.000 | 20.000 | 20.000 | 1 |
+| 100.000 | 100.000 | 200.000 | 200.000 | 1 |
+
+### Clasificación Big O
+
+- **totalVendidoI – O(n):** recorre todas las ventas una vez.
+- **ventaMayorI – O(n):** recorre todas las ventas y compara sus valores.
+- **totalPorCiudadI – O(n):** recorre las ventas para agrupar el dinero por ciudad.
+- **primeraVenta – O(1):** solamente obtiene el primer elemento del arreglo.
+
+### Conclusión
+
+Al comparar los resultados, comprobé que mis predicciones coincidieron con las mediciones. Las funciones que recorren todas las ventas aumentaron sus operaciones de manera proporcional a la cantidad de datos.
+
+También entendí que una función puede hacer más operaciones que otra y seguir teniendo la misma compejidad de big o
